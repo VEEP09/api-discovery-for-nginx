@@ -11,8 +11,12 @@
 ---
 
 ## Screenshots
+<img width="647" height="45" alt="image" src="https://github.com/user-attachments/assets/7bae92a0-baa1-4ecd-804b-64a5231638b6" />
+<img width="1472" height="732" alt="image" src="https://github.com/user-attachments/assets/8ea890ae-ffe8-49a5-baae-210f17200eab" />
+<img width="1477" height="547" alt="image" src="https://github.com/user-attachments/assets/ec04b2a3-4f5f-4ca5-aca4-287b206943ff" />
+<img width="1476" height="553" alt="image" src="https://github.com/user-attachments/assets/2f84f841-b119-4145-84e4-926e7c14541c" />
 
-_Screenshots coming soon._
+The actual service shows more information than the screenshots.
 
 <!-- Add PNGs to docs/screenshots/ and uncomment — screenshots are the #1 driver of clicks:
 ![API inventory dashboard](docs/screenshots/dashboard.png)
