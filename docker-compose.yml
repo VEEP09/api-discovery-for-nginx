@@ -1,0 +1,19 @@
+# API Discovery for NGINX — dashboard (collector + web UI)
+# Run this on the dashboard host (a server your NGINX agent(s) can reach).
+#   INGEST_TOKEN=<shared-token> docker compose up -d
+# The agent runs on a DIFFERENT host (your NGINX box) — see docker-compose.agent.yml
+services:
+  dashboard:
+    image: gusgh13900/api-discovery-nginx:latest
+    container_name: api-discovery-nginx
+    ports:
+      - "8080:8080"
+    environment:
+      # Must match the agent's INGEST_TOKEN. Empty = auth disabled (local only).
+      INGEST_TOKEN: "${INGEST_TOKEN:-}"
+      # Optional: fixed session-cookie signing key (auto-generated & persisted if unset).
+      # DASHBOARD_SECRET: "${DASHBOARD_SECRET:-}"
+    volumes:
+      # Analysis results + SQLite DB + accounts (auth_users.json) + signing key.
+      - ./output:/app/output
+    restart: unless-stopped

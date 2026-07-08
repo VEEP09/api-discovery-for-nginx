@@ -1,0 +1,25 @@
+# API Discovery for NGINX — agent (log collector)
+# Run this on your NGINX / NGINX Plus host (NOT the dashboard host).
+#   DASHBOARD_URL=http://<dashboard-host>:8080 INGEST_TOKEN=<shared-token> \
+#     docker compose -f docker-compose.agent.yml up -d
+services:
+  agent:
+    image: gusgh13900/api-discovery-agent:latest
+    container_name: api-discovery-agent
+    # host networking so the agent can reach a local NGINX Plus REST API (127.0.0.1).
+    network_mode: host
+    environment:
+      # Dashboard address (required).
+      DASHBOARD_URL: "${DASHBOARD_URL:?set DASHBOARD_URL}"
+      # Must match the dashboard's INGEST_TOKEN. Empty = auth disabled (local only).
+      INGEST_TOKEN: "${INGEST_TOKEN:-}"
+      # Active NGINX access log (JSON format) inside the container.
+      LOG_PATH: "/var/log/nginx/api_access.log"
+      # Read cursor so restarts don't re-send old lines.
+      CURSOR_FILE: "/agent/state/agent_cursor.json"
+      # Optional: NGINX Plus REST API for upstream metrics (leave unset to skip).
+      # NGINX_PLUS_API: "http://127.0.0.1:411/api/9"
+    volumes:
+      - /var/log/nginx:/var/log/nginx:ro   # read your NGINX logs
+      - ./state:/agent/state               # persist the read cursor
+    restart: unless-stopped
