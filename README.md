@@ -97,12 +97,14 @@ DASHBOARD_URL=http://<dashboard-host>:8080 INGEST_TOKEN=<shared-token> \
 
 ## Docker images
 
-| Image | Role | Size |
-|-------|------|------|
-| [`gusgh13900/api-discovery-nginx`](https://hub.docker.com/r/gusgh13900/api-discovery-nginx) | Collector server + web dashboard (`:8080`) | ~5 GB (bundles PyTorch) |
-| [`gusgh13900/api-discovery-agent`](https://hub.docker.com/r/gusgh13900/api-discovery-agent) | NGINX log-collecting agent | ~56 MB |
+| Image | Role | Download | On disk |
+|-------|------|----------|---------|
+| [`gusgh13900/api-discovery-nginx`](https://hub.docker.com/r/gusgh13900/api-discovery-nginx) | Collector server + web dashboard (`:8080`) | ~288 MB | ~1 GB |
+| [`gusgh13900/api-discovery-agent`](https://hub.docker.com/r/gusgh13900/api-discovery-agent) | NGINX log-collecting agent | ~21 MB | ~56 MB |
 
-Both images are `linux/amd64` and published with `latest` and pinned version tags (e.g. `1.0.0`). Keep the dashboard and agent on the **same version tag**.
+**These sizes — and the image-size badge above — are for the `latest` tag** (currently `1.1.0`) on `linux/amd64`. *Download* is the compressed size you actually pull; *on disk* is the extracted size afterwards. Pinned tags can differ significantly: `1.0.0` was ~2.8 GB to pull, because it shipped the CUDA build of PyTorch — see [what changed in 1.1.0](releases/api-discovery-nginx/v1.1.0.md).
+
+Both images are published with `latest` and pinned version tags (e.g. `1.1.0`). Keep the dashboard and agent on the **same version tag** — [release notes](releases/).
 
 ---
 
