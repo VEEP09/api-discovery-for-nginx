@@ -6,7 +6,8 @@ The dashboard and the agent are versioned and published together — always run 
 
 | Version | Date | Highlights |
 |---------|------|------------|
-| **1.2.0** | 2026-08-12 | Dashboard interface is now **English**, with an EN/KO switcher. No behavioural changes. |
+| **1.2.1** | 2026-08-13 | Fixes for the dashboard language switcher — help icons, re-render, 81 unkeyed strings. No behavioural changes. |
+| 1.2.0 | 2026-08-12 | Dashboard interface is now **English**, with an EN/KO switcher. No behavioural changes. |
 | 1.1.0 | 2026-08-11 | Dashboard image is **10× smaller to pull** (2.8 GB → 288 MB). No functional changes. |
 | 1.0.0 | 2026-07-08 | Initial release. |
 
