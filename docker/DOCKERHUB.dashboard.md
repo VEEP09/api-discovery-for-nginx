@@ -15,6 +15,7 @@ This is the **collector server + web dashboard** (`:8080`). It needs a **collect
 | **`api-discovery-nginx`** (this image) | Collector server + web dashboard (`:8080`) | ~288 MB | ~1 GB | Dashboard host |
 | `api-discovery-agent` | NGINX log collector | ~21 MB | ~56 MB | NGINX host |
 
+- **Source**: open source under **Apache-2.0** — [github.com/VEEP09/api-discovery-for-nginx](https://github.com/VEEP09/api-discovery-for-nginx)
 - **Architecture**: `linux/amd64` (no ARM build)
 - **Configuration**: entirely through **environment variables**. No config file to mount — pull and run. Secrets are never baked into the image.
 
@@ -156,6 +157,7 @@ Pin a version tag in production rather than using `latest`, and keep the dashboa
 | **`api-discovery-nginx`** (이 이미지) | 수집 서버 + 웹 대시보드 (`:8080`) | ~288 MB | ~1 GB | 대시보드 서버 |
 | `api-discovery-agent` | NGINX 로그 수집 에이전트 | ~21 MB | ~56 MB | NGINX 서버 |
 
+- **소스**: **Apache-2.0** 오픈소스 — [github.com/VEEP09/api-discovery-for-nginx](https://github.com/VEEP09/api-discovery-for-nginx)
 - **아키텍처**: `linux/amd64` (ARM 미지원)
 - **설정**: 전부 **환경변수**로 주입합니다. 설정 파일 마운트 없이 pull 후 바로 실행할 수 있고, 비밀값은 이미지에 포함되지 않습니다.
 

@@ -11,6 +11,7 @@ The log collector for **API Discovery for NGINX**. It runs on your NGINX host, t
 | **`api-discovery-agent`** (this image) | NGINX log collector | ~21 MB | ~56 MB | NGINX host |
 | `api-discovery-nginx` | Collector server + web dashboard (`:8080`) | ~288 MB | ~1 GB | Dashboard host |
 
+- **Source**: open source under **Apache-2.0** — [github.com/VEEP09/api-discovery-for-nginx](https://github.com/VEEP09/api-discovery-for-nginx)
 - **Architecture**: `linux/amd64` (no ARM build)
 - **Configuration**: entirely through **environment variables**. Secrets are never baked into the image.
 - **Footprint**: distroless, no shell, single Python dependency. It reads your logs read-only and sends them onward — nothing else.
@@ -109,6 +110,7 @@ Pin a version tag in production rather than using `latest`, and keep the dashboa
 | **`api-discovery-agent`** (이 이미지) | NGINX 로그 수집 에이전트 | ~21 MB | ~56 MB | NGINX 서버 |
 | `api-discovery-nginx` | 수집 서버 + 웹 대시보드 (`:8080`) | ~288 MB | ~1 GB | 대시보드 서버 |
 
+- **소스**: **Apache-2.0** 오픈소스 — [github.com/VEEP09/api-discovery-for-nginx](https://github.com/VEEP09/api-discovery-for-nginx)
 - **아키텍처**: `linux/amd64` (ARM 미지원)
 - **설정**: 전부 **환경변수**로 주입합니다. 비밀값은 이미지에 포함되지 않습니다.
 - **구성**: distroless 이미지로 셸이 없고 Python 의존성은 하나뿐입니다. 로그를 읽기 전용으로 읽어 전송하는 것 외에는 아무것도 하지 않습니다.
