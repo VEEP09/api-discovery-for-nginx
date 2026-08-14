@@ -1,0 +1,46 @@
+Copyright (c) 2026 gusgh13900. All rights reserved.
+
+NGINX API Discovery (이하 "본 소프트웨어")는 저작권자가 배포하는
+독점(proprietary) 소프트웨어이며, 아래 조건에 따라 사용을 허용합니다.
+
+■ 허용 (Permitted)
+  누구든지 본 소프트웨어를 개인 및 기업(사내) 환경에서 상업적 목적을 포함하여
+  자유롭게 설치·실행·사용할 수 있습니다. 설치·실행에 통상적으로 수반되는 복제는
+  이 허용 범위에 포함됩니다.
+
+■ 금지 (Not Permitted) — 저작권자의 명시적·서면 동의 없이 다음을 금지합니다.
+  - 제3자에 대한 복제물의 배포·재배포·공중 송신·게시
+  - 본 소프트웨어의 수정, 2차적 저작물(변형·개작) 작성
+  - 다른 소프트웨어와의 병합·결합 배포
+  - 재라이선스(sublicense) 및 판매·대여
+
+■ 보증 부인 (Disclaimer)
+  본 소프트웨어는 어떠한 종류의 명시적·묵시적 보증도 없이 "있는 그대로(AS IS)"
+  제공되며, 저작권자는 본 소프트웨어의 사용으로 인해 발생하는 어떠한 손해에 대해서도
+  책임을 지지 않습니다.
+
+---
+
+Copyright (c) 2026 gusgh13900. All rights reserved.
+
+NGINX API Discovery ("the Software") is proprietary software distributed by
+the copyright holder and is licensed for use under the following terms.
+
+PERMITTED
+  Any person may install, run, and use the Software freely for personal or
+  internal business purposes, including commercial use. Copying that is
+  incidental to installing and running the Software is permitted.
+
+NOT PERMITTED (without the prior explicit written consent of the copyright holder)
+  - Distributing, redistributing, publishing, or publicly transmitting copies
+    to third parties
+  - Modifying the Software or creating derivative works
+  - Merging or combining the Software with other software for distribution
+  - Sublicensing, selling, or renting the Software
+
+DISCLAIMER
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM,
+  DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THE SOFTWARE.
+
+문의 / Contact: gusgh13900@gmail.com
