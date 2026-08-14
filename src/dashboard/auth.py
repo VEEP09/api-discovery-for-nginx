@@ -217,7 +217,7 @@ def load_auth_config(config_path: str, output_dir: str) -> dict:
         add_user(output_dir, DEFAULT_ADMIN_USER, "admin", DEFAULT_ADMIN_PASSWORD)
         managed = load_managed_users(output_dir)
         logger.warning(
-            "기본 관리자 계정 생성: %s / %s — 로그인 후 반드시 비밀번호를 변경하세요.",
+            "Default admin account created: %s / %s - change the password after logging in",
             DEFAULT_ADMIN_USER, DEFAULT_ADMIN_PASSWORD,
         )
 
