@@ -1,0 +1,46 @@
+# Agent — pull-only 배포용 (NGINX Plus VM에서 소스 없이 이미지만 받아 실행)
+#   IMAGE=<계정>/nginx-apigent:latest \
+#   DASHBOARD_URL=http://<대시보드-VM>:8080 \
+#   INGEST_TOKEN=<대시보드와 공유하는 토큰> \
+#   docker compose -f docker-compose.deploy.yml up -d
+#
+# 설정 파일 마운트 불필요 — 아래 환경변수로 모든 값을 주입한다.
+
+services:
+  agent:
+    image: ${IMAGE:-nginx-apigent:latest}
+    container_name: nginx-apigent
+    restart: unless-stopped
+    # 동일 호스트 NGINX Plus API(localhost) 접근이 필요하면 host 네트워크 사용.
+    # Plus API를 안 쓰면 이 줄을 지워도 된다.
+    network_mode: host
+    environment:
+      - PYTHONUNBUFFERED=1
+      # ── 필수 ──
+      - DASHBOARD_URL=${DASHBOARD_URL:?DASHBOARD_URL 필요}
+      - INGEST_TOKEN=${INGEST_TOKEN:-}
+      # 에이전트 식별자 — VM마다 다르게 줄 것! (미지정 시 호스트네임 사용,
+      # host 네트워크 + 동일 호스트네임이면 대시보드에서 한 카드로 합쳐진다)
+      - AGENT_ID=${AGENT_ID:-}
+      # NGINX 종류: plus / oss / auto(기본, Plus API 응답 유무로 자동 판정)
+      - NGINX_EDITION=${NGINX_EDITION:-auto}
+      # ── 로그 경로 (컨테이너 내부 기준, 아래 볼륨과 맞출 것) ──
+      - LOG_PATH=${LOG_PATH:-/var/log/nginx/api_access.log}
+      - LOG_ROTATE_DIR=${LOG_ROTATE_DIR:-/var/log/nginx/old}
+      - LOG_ROTATE_PATTERN=${LOG_ROTATE_PATTERN:-api_access.log-*.gz}
+      # 커서 영속화 경로 (아래 state 볼륨 안에 두어야 재시작 시 중복 전송 방지)
+      - CURSOR_FILE=${CURSOR_FILE:-/agent/state/agent_cursor.json}
+      # ── 선택 ──
+      - NGINX_PLUS_API=${NGINX_PLUS_API:-}
+      # NGINX OSS 상태 확인용 stub_status URL (예: http://127.0.0.1:8080/nginx_status).
+      # 미설정 시 활성 로그의 최근 기록 여부로 상태를 판정한다.
+      - NGINX_STATUS_URL=${NGINX_STATUS_URL:-}
+      - POLL_INTERVAL=${POLL_INTERVAL:-30}
+      - BATCH_SIZE=${BATCH_SIZE:-5000}
+      - RETAIN_DAYS=${RETAIN_DAYS:-7}
+      - SKIP_ERROR_RESPONSES=${SKIP_ERROR_RESPONSES:-false}
+    volumes:
+      # 커서 파일 영속화
+      - ./state:/agent/state
+      # NGINX 로그 (read-only)
+      - /var/log/nginx:/var/log/nginx:ro

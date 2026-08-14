@@ -1,5 +1,66 @@
-# Runtime data — never commit
-output/
-state/
-*.log
+# Runtime output (generated files)
+output/**
+!output/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Claude Code / Codex
+.claude/
+.codex
+
+# 서버 프로세스
+.pid
+logs/*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model files (if stored separately)
+*.pt
+*.pth
+*.pkl
+agent/agent_config.local.yaml
+agent/agent_cursor_local.json
+
+# 비밀값 (토큰 등) — 커밋 금지
 .env
+**/.env
+
+# Docker deploy compose 런타임 산출물 (pull-only 배포 경로)
+docker/**/output/
+docker/**/state/
+
+# 대시보드 PID 파일 (위 `.pid` 패턴에 걸리지 않음)
+.dashboard.pid
+
+# 세션 인수인계 문서 · 개발 보고서 (로컬 보관, 저장소 미포함)
+handoff-to-desktop.md
+개발결과보고서.md
+
+# npm 산출물 (이 프로젝트는 Node 의존성 없음)
+package-lock.json

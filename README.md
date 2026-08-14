@@ -145,7 +145,7 @@ The dashboard requires a session login. On first start a default admin **`admin`
 
 ## License
 
-This is **commercial / proprietary software**. Use is permitted (including commercial use); redistribution, modification, reselling, and sublicensing are not. See the image pages for terms, or contact the author below.
+[Apache-2.0](LICENSE). Use it, modify it, ship it — commercially or otherwise. The source lives in this repository.
 
 ## Contact
 

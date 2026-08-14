@@ -1,0 +1,29 @@
+# Dashboard — pull-only 배포용 (소스 없이 이미지만 받아서 실행)
+#   IMAGE=<계정>/nginx-api-discovery:latest \
+#   INGEST_TOKEN=<대시보드-에이전트 공유 토큰> \
+#   docker compose -f docker-compose.deploy.yml up -d
+#
+# 설정 파일 마운트 불필요 — 필요한 값은 환경변수로 주입한다.
+# (정규화 패턴·모델 하이퍼파라미터 등 나머지 기본값은 이미지에 포함됨)
+
+services:
+  dashboard:
+    image: ${IMAGE:-nginx-api-discovery:latest}
+    container_name: nginx-api-discovery
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      - PYTHONUNBUFFERED=1
+      # 에이전트 인증 토큰 — 에이전트의 INGEST_TOKEN과 반드시 일치.
+      # 비워두면 인증 비활성화(로컬 모드).
+      - INGEST_TOKEN=${INGEST_TOKEN:-}
+    volumes:
+      # 분석 결과·SQLite DB 영구 보관 (이것만 있으면 됨)
+      - ./output:/app/output
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/healthz', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

@@ -1,0 +1,33 @@
+# Agent — NGINX(Plus) VM에서 Docker로 실행
+#   docker compose -f docker/agent/docker-compose.yml up -d --build
+#
+# 사전 준비:
+#   1) agent/agent_config.yaml 값 설정
+#        dashboard_url  : Dashboard VM 주소
+#        ingest_token   : Dashboard 의 ingest.token 과 동일
+#        log_path       : /var/log/nginx/api_access.log   (마운트된 컨테이너 내부 경로)
+#        log_rotate_dir : /var/log/nginx/old
+#        cursor_file    : /agent/state/agent_cursor.json   ← 반드시 볼륨 경로로 지정
+#        nginx_plus_api : http://127.0.0.1:411/api/9        (host 네트워크에서 localhost 접근)
+#   2) mkdir -p agent/state
+
+services:
+  agent:
+    build:
+      context: ../../agent                 # 빌드 컨텍스트 = agent/ (agent.py, requirements.txt)
+      dockerfile: ../docker/agent/Dockerfile
+    image: nginx-apigent:latest
+    container_name: nginx-apigent
+    restart: unless-stopped
+    # 호스트 네트워크: 동일 호스트의 NGINX Plus API(localhost) 접근이 간단.
+    # 대시보드가 원격이고 Plus API를 안 쓰면 이 줄을 지우고 bridge로 써도 된다.
+    network_mode: host
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # 설정 파일 (read-only)
+      - ../../agent/agent_config.yaml:/agent/agent_config.yaml:ro
+      # 커서 영속화 (재시작 시 중복 전송 방지) — config의 cursor_file 을 /agent/state/... 로 지정
+      - ../../agent/state:/agent/state
+      # NGINX 로그 (활성 + rotate 디렉토리, read-only)
+      - /var/log/nginx:/var/log/nginx:ro

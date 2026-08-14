@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="login.title">Sign in · NGINX API Discovery</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      } catch (e) {}
+    })();
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="login-body">
+  <form class="login-card" method="post" action="/login" autocomplete="off">
+    <div class="login-brand">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+      </svg>
+      <h1>NGINX API Discovery</h1>
+    </div>
+    <p class="login-sub" data-i18n="login.subtitle">Sign in to the dashboard</p>
+
+    {% if error %}<div class="login-error">{{ error }}</div>{% endif %}
+
+    <label class="login-field">
+      <span data-i18n="login.username">Username</span>
+      <input name="username" type="text" required autofocus>
+    </label>
+    <label class="login-field">
+      <span data-i18n="login.password">Password</span>
+      <input name="password" type="password" required>
+    </label>
+    <button type="submit" class="login-btn" data-i18n="login.submit">Sign in</button>
+
+    <div class="login-lang"><select id="lang-select" class="lang-select" data-i18n-attr="title:common.language" title="Language"><option value="en">EN</option><option value="ko">한국어</option></select></div>
+  </form>
+  <script src="/static/i18n.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => I18n.init());</script>
+</body>
+</html>

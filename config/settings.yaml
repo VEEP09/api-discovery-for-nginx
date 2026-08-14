@@ -1,0 +1,119 @@
+pipeline:
+  # 결과 저장 경로
+  output_dir: "./output"
+  # SQLite DB 경로 (에이전트가 /api/ingest 로 적재)
+  db_path: "./output/api_logs.db"
+  # 로그 보관 기간 (일)
+  retain_days: 7
+  # 딥러닝 학습에 사용할 최근 로그 상한 (0 = 전체 사용)
+  # Inventory는 항상 전체 로그로 집계하고, 이 값은 Feature/모델 학습 표본에만 적용.
+  train_sample_size: 200000
+
+discovery:
+  # Path parameter 정규화 패턴 (순서 중요 - 구체적인 것 먼저)
+  normalizers:
+    - name: uuid
+      pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+      placeholder: "{uuid}"
+    - name: date
+      pattern: '\d{4}-\d{2}-\d{2}'
+      placeholder: "{date}"
+    - name: numeric_id
+      pattern: '\d+'
+      placeholder: "{id}"
+    - name: hex_hash
+      pattern: '[0-9a-f]{24,}'
+      placeholder: "{hash}"
+
+  # 무시할 URI 접두사 (정적 리소스 등)
+  exclude_prefixes:
+    - "/static"
+    - "/assets"
+    - "/favicon.ico"
+    - "/robots.txt"
+    - "/health"
+    - "/ping"
+
+  # 무시할 URI 확장자 (정적 파일 — API가 아닌 리소스)
+  exclude_extensions:
+    - ".js"
+    - ".mjs"
+    - ".cjs"
+    - ".css"
+    - ".map"
+    - ".png"
+    - ".jpg"
+    - ".jpeg"
+    - ".gif"
+    - ".svg"
+    - ".ico"
+    - ".webp"
+    - ".avif"
+    - ".bmp"
+    - ".tiff"
+    - ".tif"
+    - ".woff2"
+
+inventory:
+  # Inventory 출력 포맷 (csv, json)
+  output_format: "both"
+  # 최소 호출 횟수 (노이즈 필터링)
+  min_call_count: 10
+
+features:
+  # LSTM 시퀀스 윈도우 크기 (timestep 수)
+  window_size: 10
+  # 슬라이딩 윈도우 이동 간격 (1=최대 데이터, window_size=겹침 없음)
+  step: 1
+  # Vectorizer 저장 경로 (서버 간 인코더 공유 시 복사해서 사용)
+  vectorizer_path: "./output/vectorizer.json"
+
+ingest:
+  # 에이전트 인증 토큰 — 에이전트의 ingest_token과 일치해야 함.
+  # ⚠️ 비밀값은 여기(파일/이미지)에 넣지 말 것. 환경변수 INGEST_TOKEN 으로 주입한다.
+  #    env가 있으면 항상 우선하며, 이 값은 fallback 기본값(빈 값 = 인증 비활성화)이다.
+  token: ""
+
+auth:
+  # 대시보드 로그인(세션) + admin/viewer RBAC.
+  #
+  # 계정은 대시보드 'Users' 탭(admin)에서 관리하며 output/auth_users.json 에 저장된다.
+  # 최초 기동 시 계정이 하나도 없으면 기본 관리자(admin / admin1234)가 자동 생성된다.
+  #   → 로그인 후 반드시 비밀번호를 변경할 것.
+  #
+  # 세션 서명키 우선순위: 환경변수 DASHBOARD_SECRET → 아래 secret → output/auth_secret(자동 생성·보존).
+  #   운영에선 DASHBOARD_SECRET 지정 권장.  생성: python3 -m src.dashboard.auth secret
+  secret: ""
+  # 세션 유효시간(시간)
+  session_hours: 12
+  # (선택) 파일로 고정할 정적 계정. 보통은 비워두고 Users 탭에서 관리한다.
+  #   해시 생성: python3 -m src.dashboard.auth hash
+  users: []
+  #   예시:
+  #   - username: admin
+  #     role: admin
+  #     password_hash: "pbkdf2_sha256$240000$....$...."
+  #   - username: viewer
+  #     role: viewer
+  #     password_hash: "pbkdf2_sha256$240000$....$...."
+
+models:
+  # 모델 저장 디렉토리
+  output_dir: "./output/models"
+  # 이상 판정 임계값: 정상 데이터의 상위 N%를 임계값으로 사용
+  threshold_percentile: 95.0
+
+  autoencoder:
+    hidden_dims: [16, 8]
+    lr: 0.001
+    batch_size: 256
+    max_epochs: 30
+    patience: 5
+
+  lstm:
+    hidden_dim: 32
+    num_layers: 1
+    lr: 0.001
+    batch_size: 128
+    max_epochs: 30
+    patience: 5

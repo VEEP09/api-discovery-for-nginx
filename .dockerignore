@@ -1,0 +1,14 @@
+.git/
+.claude/
+.codex
+output/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.py[cod]
+.coverage
+htmlcov/
+*.pt
+*.pth
+*.pkl

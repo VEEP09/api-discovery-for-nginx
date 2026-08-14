@@ -1,0 +1,16 @@
+# 빌드 컨텍스트(저장소 루트)에서 제외할 항목.
+# output(수 GB SQLite/모델)·git·가상환경 등이 이미지에 구워지지 않게 한다.
+.git
+.gitignore
+output/
+logs/
+**/__pycache__/
+**/*.pyc
+**/.venv/
+.venv/
+node_modules/
+package-lock.json
+docker/
+agent/
+*.log
+개발결과보고서.md

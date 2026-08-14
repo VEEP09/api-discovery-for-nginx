@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# NGINX API Discovery — Agent 설정
+# NGINX Plus VM에 배포해서 사용합니다.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Dashboard VM의 주소 (포트 포함)
+dashboard_url: "http://192.168.1.100:8080"
+
+# 인증 토큰 — Dashboard VM의 config/settings.yaml ingest.token 값과 일치해야 함
+ingest_token: "change-me-to-a-strong-secret"
+
+# ── NGINX 로그 경로 ───────────────────────────────────────────────────────────
+
+# 현재 활성 로그 파일 경로
+log_path: "/var/log/nginx/api_access.log"
+
+# logrotate 보관 디렉토리 (비워두면 rotated 로그 수집 안 함)
+log_rotate_dir: "/var/log/nginx/old"
+
+# rotated 파일 glob 패턴 — 날짜 8자리(YYYYMMDD)가 반드시 포함되어야 함
+log_rotate_pattern: "api_access.log-*.gz"
+
+# ── 에이전트 동작 설정 ─────────────────────────────────────────────────────────
+
+# 커서 파일 경로 (읽기 위치 저장 — 재시작 시 중복 전송 방지)
+cursor_file: "./agent_cursor.json"
+
+# 한 번에 전송하는 최대 행 수
+batch_size: 5000
+
+# 폴링 주기 (초) — --once 옵션 사용 시 무시됨
+poll_interval: 30
+
+# 보관 기간 (일) — 이 기간보다 오래된 rotated 로그는 건너뜀
+retain_days: 7
+
+# HTTP 4xx/5xx 응답 건너뜀 (false = Requests 탭에 에러 요청 표시, Inventory/ML은 제외)
+skip_error_responses: false
+
+# ── NGINX Plus REST API ───────────────────────────────────────────────────────
+# NGINX Plus API URL (비워두면 수집 안 함)
+# nginx.conf에서 api; 지시어가 활성화되어 있어야 함
+# 예: http://localhost/api/9  또는  http://127.0.0.1:8888/api/9
+nginx_plus_api: "http://127.0.0.1:8888/api/9"
+
+# ── URI 필터 ──────────────────────────────────────────────────────────────────
+# Dashboard VM config/settings.yaml의 discovery 섹션과 동일하게 유지하세요.
+
+exclude_prefixes:
+  - "/static"
+  - "/assets"
+  - "/favicon.ico"
+  - "/robots.txt"
+  - "/health"
+  - "/ping"
+
+exclude_extensions:
+  - ".png"
+  - ".jpg"
+  - ".jpeg"
+  - ".gif"
+  - ".svg"
+  - ".ico"
+  - ".webp"
+  - ".avif"
+  - ".bmp"
+  - ".tiff"
+  - ".tif"
+  - ".woff2"
